@@ -853,11 +853,10 @@ export interface ApiGameGame extends Schema.CollectionType {
     name: Attribute.String & Attribute.Required;
     slug: Attribute.UID<'api::game.game', 'name'>;
     short_description: Attribute.Text;
-    description: Attribute.RichText;
     price: Attribute.Decimal & Attribute.Required & Attribute.DefaultTo<0>;
     release_date: Attribute.Date;
     rating: Attribute.Enumeration<
-      ['BR 0', 'BR 10', 'BR 12', 'BR 14', 'BR 16', 'BR 18']
+      ['BR0', 'BR10', 'BR12', 'BR14', 'BR16', 'BR18']
     >;
     cover: Attribute.Media;
     gallery: Attribute.Media;
@@ -881,6 +880,14 @@ export interface ApiGameGame extends Schema.CollectionType {
       'manyToOne',
       'api::publisher.publisher'
     >;
+    description: Attribute.RichText &
+      Attribute.CustomField<
+        'plugin::ckeditor.CKEditor',
+        {
+          output: 'HTML';
+          preset: 'rich';
+        }
+      >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::game.game', 'oneToOne', 'admin::user'> &
